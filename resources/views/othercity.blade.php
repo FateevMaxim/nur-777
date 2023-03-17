@@ -35,13 +35,13 @@
                             </div>
                         </div>
                         <div class="absolute w-full bottom-0 p-4">
-                            <form method="POST" action="{{ route('othercity-product') }}" id="searchForm">
+                            <form method="POST" action="{{ route('almatyout-product') }}" id="searchForm">
                                 <div>
                                     <div>
                                         @csrf
 
                                         <x-primary-button class="mx-auto w-full">
-                                            {{ __('Загрузить') }}
+                                            {{ __('Отправить') }}
                                         </x-primary-button>
                                         <x-secondary-button class="mx-auto mt-4 w-full" id="clear">
                                             {{ __('Очистить') }}
@@ -59,7 +59,6 @@
                         <div class="grid hidden" id="clear_track_codes">
 
                         </div>--}}
-
 
                         <script>
 
@@ -101,7 +100,7 @@
                                     url = $form.attr( 'action' );
 
                                 /* отправляем данные методом POST */
-                                $.post( url, { track_codes: track_codes } )
+                                $.post( url, { track_codes: track_codes, send: true } )
                                  .done(function( data ) {
                                      location.reload();
                                  });
@@ -235,7 +234,6 @@
                             </div>
                         </div>
                     </div>
-
 
         </div>
 </x-app-layout>

@@ -103,11 +103,11 @@
                     @foreach($tracks as $track)
                         <div class="w-full bg-white border border-indigo-200 rounded-lg shadow">
                             <ul class="grid grid-cols-1 p-3 text-xl font-medium text-white border-b border-gray-200 rounded-t-lg"
-                                @if($track->to_china == null && $track->to_almaty == null && $track->to_client == null) style="background-color: rgb(168 168 168);" @endif
-                                @if($track->created_at != null && $track->to_china != null && $track->to_almaty == null && $track->to_client == null ) style="background-color: rgb(255 198 53);" @endif
-                                @if($track->created_at != null && $track->to_china != null && $track->to_almaty != null && $track->to_client == null )  style="background-color: rgb(0 218 76);" @endif
-                                @if($track->created_at != null && $track->to_china != null && $track->to_almaty != null && $track->to_client != null && $track->client_accept == null )  style="background-color: rgb(53 174 255);" @endif
-                                @if($track->created_at != null && $track->to_china != null && $track->to_almaty != null && $track->to_client != null && $track->client_accept != null )  style="background-color: rgb(230 123 253);" @endif>
+                                @if($track->to_china == null && $track->to_almaty == null && $track->to_client == null && $track->client_accept == null) style="background-color: rgb(168 168 168);" @endif
+                                @if($track->created_at != null && $track->to_china != null && $track->to_almaty == null && $track->to_client == null && $track->client_accept == null ) style="background-color: rgb(255 198 53);" @endif
+                                @if($track->created_at != null && $track->to_almaty != null && $track->to_client == null && $track->client_accept == null )  style="background-color: rgb(0 218 76);" @endif
+                                @if($track->created_at != null && $track->to_client != null && $track->client_accept == null )  style="background-color: rgb(53 174 255);" @endif
+                                @if($track->created_at != null && $track->client_accept != null )  style="background-color: rgb(230 123 253);" @endif>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div class="col-span-2 ml-5">
                                         <span>{{$track->track_code}}</span>

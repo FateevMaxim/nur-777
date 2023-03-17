@@ -48,9 +48,10 @@ class DashboardController extends Controller
             return view('othercity')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'admin'){
             $messages = Message::all();
+            $config = Configuration::query()->select('address')->first();
             $search_phrase = '';
             $users = User::query()->select('id', 'name', 'surname', 'type', 'login', 'city', 'is_active', 'block', 'password', 'created_at')->where('type', null)->where('is_active', false)->get();
-            return view('admin')->with(compact('users', 'messages', 'search_phrase'));
+            return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config'));
         }
         $config = Configuration::query()->select('whats_app')->first();
         return view('register-me')->with(compact( 'config'));
