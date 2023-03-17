@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\TracksImport;
 use App\Models\ClientTrackList;
+use App\Models\Configuration;
 use App\Models\TrackList;
 use App\Models\User;
 use Carbon\Carbon;
@@ -103,8 +104,6 @@ class ProductController extends Controller
                 'block' => 'нет',
             ];
         }
-
-
 
         return response([$track_code_statuses, $user_data]);
 
@@ -292,6 +291,7 @@ class ProductController extends Controller
         $tracks_today = ClientTrackList::query()->whereDay('created_at', date('d'))->count();
         $tracks_month = ClientTrackList::query()->whereMonth('created_at', date('m'))->count();
 
-        return view('result', compact('labels', 'data', 'data2', 'data3', 'clients', 'client_tracks', 'tracks_today', 'tracks_month', 'labelsDays', 'dataDays', 'dataDays2', 'dataDays3'));
+        $config = Configuration::query()->select('address')->first();
+        return view('result', compact('labels', 'data', 'data2', 'data3', 'clients', 'client_tracks', 'tracks_today', 'tracks_month', 'labelsDays', 'dataDays', 'dataDays2', 'dataDays3', 'config'));
     }
 }

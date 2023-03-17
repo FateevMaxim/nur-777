@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Configuration;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -76,10 +77,11 @@ class ProfileController extends Controller
 
     public function searchClient (Request $request)
     {
-        $users = User::query()->where('login', 'LIKE', '%'.$request->phone.'%')->orWhere('code', 'LIKE', '%'.$request->phone.'%')->get();
+        $users = User::query()->where('login', 'LIKE', '%'.$request->phone.'%')->get();
         $messages = Message::all();
         $search_phrase = $request->phone;
-        return view('admin')->with(compact('users', 'messages', 'search_phrase'));
+        $config = Configuration::query()->select('address')->first();
+        return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config'));
     }
 
     public function accessClient (Request $request)
