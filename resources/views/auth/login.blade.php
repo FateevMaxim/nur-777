@@ -41,6 +41,11 @@
                     <a href="{{ route('register') }}">{{ __('Зарегистрироваться') }}</a>
                 </x-secondary-button>
             </div>
+            <div class="flex items-center justify-end mt-4">
+                <a href="https://api.whatsapp.com/send?phone={{$config->whats_app}}&text=Здравствуйте! Напомните, пожалуйста, мой пароль" class="w-9/12 mx-auto">
+                    Забыли пароль?
+                </a>
+            </div>
 <div class="flex w-9/12 gap-2 mt-4 mx-auto md:justify-between">
     <div class="flex-1">
         <button onclick="install()" class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">{{ __('Android') }}</button>

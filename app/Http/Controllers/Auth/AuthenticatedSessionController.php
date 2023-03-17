@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Configuration;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        $config = Configuration::query()->select('whats_app')->first();
+        return view('auth.login')->with(compact( 'config'));
     }
 
     /**
@@ -45,7 +47,8 @@ class AuthenticatedSessionController extends Controller
         if ($user){
             return redirect()->route('dashboard');
         }else{
-            return view('register-me');
+            $config = Configuration::query()->select('address', 'whatsapp')->first();
+            return view('register-me')->with(compact( 'config'));
         }
     }
 

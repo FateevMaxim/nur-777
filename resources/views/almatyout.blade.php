@@ -37,7 +37,6 @@
 
                                     <p><b>Имя:</b> <span id="surnamename"></span> &nbsp; <span id="name"></span></p>
                                     <p><b>Номер телефона:</b> <span id="login"></span></p>
-                                    <p><b>Код:</b> <span id="code"></span></p>
 
                                     <p><b>Трек код:</b> <span id="trackcode"></span></p>
 
@@ -87,6 +86,7 @@
                                      $("#name").text(data[1].name);
                                      $("#login").text(data[1].login);
                                      $("#to_china").text(data[0].to_china);
+                                     $("#trackcode").text(track_code);
                                      $("#to_almaty").text(data[0].to_almaty);
                                      $("#to_client").text(data[0].to_client);
                                      $("#client_accept").text(data[0].client_accept);
