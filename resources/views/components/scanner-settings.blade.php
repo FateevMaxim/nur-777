@@ -104,7 +104,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6 justify-content-center">
-                <img src="{{ asset('images/barcodeclear.jpg') }}" width="200" class="mx-auto" alt="Barcode">
+                <img src="{{ asset('images/barcoderealtime.jpg') }}" width="200" class="mx-auto" alt="Barcode">
             </div>
 
         </div>

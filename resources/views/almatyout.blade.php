@@ -86,7 +86,6 @@
                                      $("#surname").text(data[1].surname);
                                      $("#name").text(data[1].name);
                                      $("#login").text(data[1].login);
-                                     $("#code").text(data[1].code);
                                      $("#to_china").text(data[0].to_china);
                                      $("#to_almaty").text(data[0].to_almaty);
                                      $("#to_client").text(data[0].to_client);
