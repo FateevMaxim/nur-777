@@ -31,17 +31,17 @@ class DashboardController extends Controller
 
             return view('dashboard')->with(compact('tracks', 'count', 'messages', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'stock'){
-
+            $config = Configuration::query()->select('address')->first();
             $count = TrackList::query()->whereDate('created_at', Carbon::today())->count();
-            return view('stock')->with(compact('count'));
+            return view('stock')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'almatyin'){
-
+            $config = Configuration::query()->select('address')->first();
             $count = TrackList::query()->whereDate('to_almaty', Carbon::today())->count();
-            return view('almaty')->with(compact('count'));
+            return view('almaty')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'almatyout'){
-
+            $config = Configuration::query()->select('address')->first();
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
-            return view('almatyout')->with(compact('count'));
+            return view('almatyout')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'admin'){
             $messages = Message::all();
             $search_phrase = '';
