@@ -42,13 +42,18 @@ class DashboardController extends Controller
             $config = Configuration::query()->select('address')->first();
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
             return view('almatyout')->with(compact('count', 'config'));
+        }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'othercity'){
+            $config = Configuration::query()->select('address')->first();
+            $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
+            return view('othercity')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'admin'){
             $messages = Message::all();
             $search_phrase = '';
             $users = User::query()->select('id', 'name', 'surname', 'type', 'login', 'city', 'is_active', 'block', 'password', 'created_at')->where('type', null)->where('is_active', false)->get();
             return view('admin')->with(compact('users', 'messages', 'search_phrase'));
         }
-        return view('register-me');
+        $config = Configuration::query()->select('whats_app')->first();
+        return view('register-me')->with(compact( 'config'));
     }
 
     public function archive ()
