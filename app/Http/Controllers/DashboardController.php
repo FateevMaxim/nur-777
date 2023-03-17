@@ -65,8 +65,9 @@ class DashboardController extends Controller
                 ->where('client_track_lists.user_id', Auth::user()->id)
                 ->where('client_track_lists.status', '=', 'archive')
                 ->get();
+        $config = Configuration::query()->select('address')->first();
             $count = count($tracks);
-            return view('dashboard')->with(compact('tracks', 'count'));
+            return view('dashboard')->with(compact('tracks', 'count', 'config'));
     }
 
 
