@@ -1,4 +1,4 @@
-
+@section( 'chinaaddress', $config->address )
 <x-app-layout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -8,28 +8,36 @@
                         <span class="font-medium">{{ session()->get('message') }}
                     </div>
                 @endif
-
-                <div class="grid grid-cols-1 md:grid-cols-3 h-22 pl-6 gap-4 pr-6 pb-4">
-
-                        <div class="grid round_border min_height md:mt-0 mt-4 grid-cols-1 p-4 relative">
+                    <div class="grid md:grid-cols-3 grid-cols-1 gap-3 h-22 pl-6 pr-6 pb-4">
+                        <div class="grid grid round_border min_height grid-cols-1 p-4 relative">
                             <div>
-                                <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт приёма China</h3>
+                                 <span>
+                                Пункт приёма
+                                </span>
+                                <h3>China</h3>
                             </div>
-                            <div class="p-4 absolute bottom-0">
+                            <div class="absolute p-4 bottom-0">
                                 <span>Количество зарегистрированных трек кодов за сегодня</span>
-                                <h3 class="mt-0 text-2xl font-medium leading-tight text-primary">{{ $count }}</h3>
+                                <h3>{{ $count }}</h3>
                             </div>
-                        </div>
-                            <textarea id="track_codes_list" class="min_height round_border p-4" autofocus></textarea>
 
+                        </div>
+                        <div id="track_codes_list" class="round_border min_height p-4">
+
+                        </div>
+                        <div class="grid hidden" id="clear_track_codes">
+
+                        </div>
                         <div class="grid grid-cols-1 p-4 min_height round_border relative">
-                            <div class="grid mx-auto mt-8">
+                            <div class="grid mx-auto">
                                 <img src="{{ asset('images/barcode.jpg') }}" width="200" alt="Barcode">
                                 <b class="mx-auto" style="margin-top: -45px;">Upload Data</b>
                             </div>
-                            <div id="track" class="grid h-12 mx-auto">
-                                <div>
-                                    <h1 class="text-2xl font-medium">Счётчик <span id="count"></span></h1>
+                            <div id="track">
+                                <span>Счётчик</span>
+
+                                <div x-data="{ count: 0 }">
+                                    <h1 id="count"></h1>
                                 </div>
                             </div>
                             <div class="absolute w-full bottom-0 p-4">
@@ -50,13 +58,34 @@
                             </div>
 
                         </div>
+
                         <script>
 
+                            let code = "";
+                            let reading = false;
+                            var number = 1;
                             document.addEventListener('keypress', e => {
-                                var text = $("#track_codes_list").val();
-                                var lines = text.split("\n");
-                                var count = lines.length;
-                                $("#count").text(count);
+                                //usually scanners throw an 'Enter' key at the end of read
+                                if (e.keyCode === 13) {
+                                    if(code.length > 5) {
+                                        $('#track_codes_list').append('<h2>'+number+'. '+code+'</h2>');
+                                        $('#clear_track_codes').append(code+'\r\n');
+                                        $("#count").text(number);
+                                        number++;
+                                        code = "";
+                                    }
+                                } else {
+                                    code += e.key; //while this is not an 'enter' it stores the every key
+                                }
+
+                                //run a timeout of 200ms at the first read and clear everything
+                                if(!reading) {
+                                    reading = true;
+                                    setTimeout(() => {
+                                        code = "";
+                                        reading = false;
+                                    }, 200);  //200 works fine for me but you can adjust it
+                                }
                             });
 
                             /* прикрепить событие submit к форме */
@@ -66,14 +95,14 @@
 
                                 /* собираем данные с элементов страницы: */
                                 var $form = $( this ),
-                                    track_codes = $("#track_codes_list").val();
-                                    url = $form.attr( 'action' );
+                                    track_codes = $("#clear_track_codes").html();
+                                url = $form.attr( 'action' );
 
                                 /* отправляем данные методом POST */
                                 $.post( url, { track_codes: track_codes } )
-                                 .done(function( data ) {
-                                     location.reload();
-                                 });
+                                    .done(function( data ) {
+                                        location.reload();
+                                    });
 
                             });
 
@@ -82,14 +111,15 @@
                                 /* отключение стандартной отправки формы */
                                 event.preventDefault();
 
-                                     $("#track_codes_list").html('');
-                                     number = 1;
-                                     $("#count").text('0');
+                                $("#track_codes_list").html('');
+                                $("#clear_track_codes").html('');
+                                number = 1;
+                                $("#count").text('0');
 
                             });
 
                         </script>
-                </div>
+                    </div>
                     @include('components.scanner-settings')
             </div>
         </div>

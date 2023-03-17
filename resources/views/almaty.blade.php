@@ -1,3 +1,4 @@
+@section( 'chinaaddress', $config->address )
 <x-app-layout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -14,24 +15,43 @@
                             </div>
 
                         </div>
+                    <div id="track_codes_list" class="round_border min_height p-4">
 
+                    </div>
+                    <div class="grid hidden" id="clear_track_codes">
 
+                    </div>
 
-                        <div class="min_height round_border md:mt-0 mt-4 p-4">
-                            <form method="POST" action="{{ route('almatyin-product') }}">
-                                <div class="w-full">
-                                <label for="track_codes">{{__('Трек коды')}}</label>
-                                    @csrf
-                                    <textarea id="track_codes" rows="15" class="block mt-1 w-full border-2 border-sky-400" type="text" name="track_codes" autofocus></textarea>
-                                    <x-primary-button class="mx-auto mt-4 w-full">
-                                        {{ __('Загрузить') }}
-                                    </x-primary-button>
+                    <div class="grid grid-cols-1 p-4 min_height round_border relative">
+                        <div class="grid mx-auto">
+                            <img src="{{ asset('images/barcode.jpg') }}" width="200" alt="Barcode">
+                            <b class="mx-auto" style="margin-top: -45px;">Upload Data</b>
+                        </div>
+                        <div id="track">
+                            <span>Счётчик</span>
+
+                            <div x-data="{ count: 0 }">
+                                <h1 id="count"></h1>
+                            </div>
+                        </div>
+                        <div class="absolute w-full bottom-0 p-4">
+                            <form method="POST" action="{{ route('almatyin-product') }}" id="searchForm">
+                                <div>
+                                    <div>
+                                        @csrf
+
+                                        <x-primary-button class="mx-auto w-full">
+                                            {{ __('Загрузить') }}
+                                        </x-primary-button>
+                                        <x-secondary-button class="mx-auto mt-4 w-full" id="clear">
+                                            {{ __('Очистить') }}
+                                        </x-secondary-button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="grid hidden" id="clear_track_codes">
 
-                        </div>
+                    </div>
 
                        {{-- <div id="track_codes_list" class="min_height round_border md:mt-0 mt-4 p-4">
 
@@ -41,34 +61,6 @@
                         </div>--}}
 
 
-
-                        <div class="grid md:mt-0 mt-4 align-content-end p-4 min_height round_border relative">
-                            <div class="grid mx-auto mt-5">
-                                <img src="{{ asset('images/barcode.jpg') }}" width="200" alt="Barcode">
-                                <div class="grid mx-auto"><b style="margin-top: -170px;">Upload Data</b></div>
-                            </div>
-
-                            {{--<div class="absolute w-full bottom-0 p-4">
-                                <div id="track" class="grid mb-5">
-                                    <div>
-                                        <h1>Счётчик: <span id="count">0</span></h1>
-                                    </div>
-                                </div>
-                                <form method="POST" action="{{ route('almatyin-product') }}" id="searchForm">
-                                        <div class="w-full">
-                                            @csrf
-
-                                            <x-primary-button class="mx-auto w-full">
-                                                {{ __('Загрузить') }}
-                                            </x-primary-button>
-                                            <x-secondary-button class="mx-auto mt-4 w-full" id="clear">
-                                                {{ __('Очистить') }}
-                                            </x-secondary-button>
-                                        </div>
-                                </form>
-                            </div>--}}
-
-                        </div>
                         <script>
 
                             let code = "";
