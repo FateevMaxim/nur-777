@@ -1,6 +1,0 @@
-[{
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target" : { "namespace": "android_app", "package_name": "kz.elmira_cargo.twa",
-                     "sha256_cert_fingerprints": ["B8:59:F5:C2:6B:FB:CD:F2:A4:C2:C8:85:EA:79:BF:2D:90:6F:8D:99:04:67:00:E2:58:60:B3:41:69:7A:55:86"] }
-      }
-]
