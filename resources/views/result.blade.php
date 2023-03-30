@@ -75,11 +75,10 @@
             @endif
             <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mr-5 mb-2 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
-                    <div
-                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов на складах
+                    <div class="bg-neutral-50 py-3 px-5">
+                        Статистика по клиентам
                     </div>
-                    <canvas id="pie-chart" width="800" height="450"></canvas>
+                    <canvas id="client-chart" width="400" height="250"></canvas>
                 </div>
                 <div class="overflow-hidden rounded-lg shadow-lg">
                     <div
@@ -96,20 +95,23 @@
                         За всё время: <b>{{ $tracks_total }}</b>
                     </p>
                 </div>
-                <div class="overflow-hidden rounded-lg shadow-lg">
-                    <div class="bg-neutral-50 py-3 px-5">
-                        Количество клиентов и заказанных товаров
-                    </div>
-                    <canvas id="client-chart" width="400" height="250"></canvas>
-                </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-1 ml-5 mr-5 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
                     <div
                         class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов
+                        Количество добавленных трек кодов на складах
                     </div>
                     <canvas id="pie-chart-days" width="800" height="450"></canvas>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mt-2 mr-5 gap-2">
+                <div class="overflow-hidden rounded-lg shadow-lg">
+                    <div
+                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                        Количество добавленных трек кодов на складах
+                    </div>
+                    <canvas id="pie-chart" width="800" height="450"></canvas>
                 </div>
             </div>
                 <!-- Required chart.js -->
