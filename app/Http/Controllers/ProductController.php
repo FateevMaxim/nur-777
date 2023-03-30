@@ -309,7 +309,7 @@ class ProductController extends Controller
         $tracks_month = ClientTrackList::query()->whereMonth('created_at', date('m'))->count();
         $tracks_total = ClientTrackList::query()->count();
 
-        $config = Configuration::query()->select('address')->first();
+        $config = Configuration::query()->select('address', 'title_text')->first();
         return view('result', compact('labels', 'data', 'data2', 'data3', 'clients', 'clients_today',
             'clients_false', 'clients_true', 'clients_auth', 'tracks_today', 'tracks_month', 'tracks_total', 'labelsDays',
             'dataDays', 'dataDays2', 'dataDays3', 'config'));
