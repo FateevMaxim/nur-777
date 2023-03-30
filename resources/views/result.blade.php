@@ -1,4 +1,6 @@
-@section( 'chinaaddress', $config->address )
+@if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
+@if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
+@if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -32,7 +34,7 @@
                             <h4 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Добавление сообщения</h4>
                             <form method="POST" action="{{ route('message-add') }}">
                                 <textarea id="message" name="message" rows="5" required="required" class="block mb-2 mx-auto w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Сообщение..."></textarea>
-                                <button type="submit" class="items-center px-4 py-3 bg-fuchsia-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700  focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                <button type="submit" class="items-center px-4 py-3 bg-[#6e6e6e] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700  focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                     {{ __('Отправить сообщение') }}
                                 </button>
                             </form>
@@ -71,18 +73,27 @@
                     </button>
                 </div>
             @endif
-            <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mr-5 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mr-5 mb-2 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
                     <div
                         class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов
+                        Количество добавленных трек кодов на складах
                     </div>
                     <canvas id="pie-chart" width="800" height="450"></canvas>
-                    <p class="ml-4">
-                        Количество добавленных треков сегодня: <b>{{ $tracks_today }}</b>
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-lg">
+                    <div
+                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                        Количество добавленных трек кодов клиентами
+                    </div>
+                    <p class="ml-4 mb-1 mt-1">
+                        За сегодня: <b>{{ $tracks_today }}</b>
                     </p>
-                    <p class="ml-4">
-                        Количество добавленных треков за текущий месяц: <b>{{ $tracks_month }}</b>
+                    <p class="ml-4 mb-1 mt-1">
+                        За текущий месяц: <b>{{ $tracks_month }}</b>
+                    </p>
+                    <p class="ml-4 mb-1 mt-1">
+                        За всё время: <b>{{ $tracks_total }}</b>
                     </p>
                 </div>
                 <div class="overflow-hidden rounded-lg shadow-lg">
@@ -115,7 +126,10 @@
                     var users2 =  {{ Js::from($data2) }};
                     var users3 =  {{ Js::from($data3) }};
                     var clients =  {{ Js::from($clients) }};
-                    var client_tracks =  {{ Js::from($client_tracks) }};
+                    var clients_today =  {{ Js::from($clients_today) }};
+                    var clients_false =  {{ Js::from($clients_false) }};
+                    var clients_true =  {{ Js::from($clients_true) }};
+                    var clients_auth =  {{ Js::from($clients_auth) }};
 
                     new Chart(document.getElementById("pie-chart"), {
                         type: 'bar',
@@ -155,12 +169,13 @@
                     new Chart(document.getElementById("client-chart"), {
                         type: 'doughnut',
                         data: {
-                            labels: ['Клиентов', 'Товаров'],
+                            labels: ['Клиентов всего', 'Заходили сегодня', 'Зарегистрировались сегодня', 'Без доступа', 'С доступом'],
                             datasets: [
                                 {
                                     label: "Количество",
-                                    backgroundColor: ["#ff6a00", "#0f00ff"],
-                                    data: [clients, client_tracks],
+                                    backgroundColor: ["#ff6a00", "#0f00ff", "#2a8f07", "#980000",
+                                        "#dfff37"],
+                                    data: [clients, clients_auth, clients_today, clients_false, clients_true],
                                 }
                             ]
                         },

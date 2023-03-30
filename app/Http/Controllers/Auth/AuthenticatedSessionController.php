@@ -45,6 +45,8 @@ class AuthenticatedSessionController extends Controller
             ->where('is_active', true)
             ->first();
         if ($user){
+            $user->login_date = date(now());
+            $user->save();
             return redirect()->route('dashboard');
         }else{
             $config = Configuration::query()->select('address', 'whats_app')->first();

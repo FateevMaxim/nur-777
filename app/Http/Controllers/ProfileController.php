@@ -19,8 +19,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $config = Configuration::query()->select('address', 'title_text')->first();
         return view('profile.edit', [
             'user' => $request->user(),
+            'config' => $config,
         ]);
     }
 
@@ -80,7 +82,7 @@ class ProfileController extends Controller
         $users = User::query()->where('login', 'LIKE', '%'.$request->phone.'%')->get();
         $messages = Message::all();
         $search_phrase = $request->phone;
-        $config = Configuration::query()->select('address')->first();
+        $config = Configuration::query()->select('address', 'title_text')->first();
         return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config'));
     }
 
