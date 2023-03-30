@@ -131,6 +131,20 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Трек код успешно добавлен');
     }
 
+    public function deleteTrack (Request $request)
+    {
+        $validated = $request->validate([
+            'delete_track' => 'required|string|max:100',
+        ]);
+
+        if ($validated){
+            $archive = ClientTrackList::query()->where('track_code', $request['delete_track'])->first();
+            $archive->status = 'deleted';
+            $archive->save();
+            return redirect()->back()->with('message', 'Трек код успешно удалён');
+        }
+
+    }
 
     public function archiveProduct (Request $request)
     {
@@ -284,15 +298,20 @@ class ProductController extends Controller
         $dataDays3 = collect($dataDays3);
 
 
-
-
-
         $clients = User::query()->where('type', null)->count();
-        $client_tracks = ClientTrackList::query()->count();
+        $clients_today = User::query()->where('type', null)->whereDate('created_at',  Carbon::today())->count();
+        $clients_false = User::query()->where('type', null)->where('is_active', false)->count();
+        $clients_true = User::query()->where('type', null)->where('is_active', true)->count();
+        $clients_auth = User::query()->where('type', null)->whereDate('login_date', Carbon::today())->count();
+
+
         $tracks_today = ClientTrackList::query()->whereDay('created_at', date('d'))->count();
         $tracks_month = ClientTrackList::query()->whereMonth('created_at', date('m'))->count();
+        $tracks_total = ClientTrackList::query()->count();
 
         $config = Configuration::query()->select('address')->first();
-        return view('result', compact('labels', 'data', 'data2', 'data3', 'clients', 'client_tracks', 'tracks_today', 'tracks_month', 'labelsDays', 'dataDays', 'dataDays2', 'dataDays3', 'config'));
+        return view('result', compact('labels', 'data', 'data2', 'data3', 'clients', 'clients_today',
+            'clients_false', 'clients_true', 'clients_auth', 'tracks_today', 'tracks_month', 'tracks_total', 'labelsDays',
+            'dataDays', 'dataDays2', 'dataDays3', 'config'));
     }
 }
