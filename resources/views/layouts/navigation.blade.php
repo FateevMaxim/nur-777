@@ -9,7 +9,7 @@
                     <!-- Logo -->
                     <div class="shrink-0 text-white flex items-center">
                         <a href="{{ route('dashboard') }}">
-                            <h2 style="font-size:30px; font-weight: bold;">@yield( 'title_text' )</h2>
+                            <h2 style="font-size:30px;" class="">@yield( 'title_text' )</h2>
                         </a>
                     </div>
                 </div>

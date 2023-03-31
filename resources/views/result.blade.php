@@ -76,24 +76,26 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mr-5 mb-2 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
                     <div class="bg-neutral-50 py-3 px-5">
-                        Статистика по клиентам
+                        Количество зарегистрированных клиентов
                     </div>
                     <canvas id="client-chart" width="400" height="250"></canvas>
+
+                    <p class="ml-4 mb-1 mt-1">
+                        Сколько клиентов заходили на сайт сегодня: <b>{{ $clients_auth }}</b>
+                    </p>
+                    <p class="ml-4 mb-1 mt-1">
+                        Количество зарегистрированных трек кодов клиентом на сегодня: <b>{{ $tracks_today }}</b>
+                    </p>
+                    <p class="ml-4 mb-1 mt-1">
+                        Количество зарегистрированных трек кодов клиентом на этот месяц: <b>{{ $tracks_month }}</b>
+                    </p>
                 </div>
                 <div class="overflow-hidden rounded-lg shadow-lg">
-                    <div
-                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов клиентами
-                    </div>
-                    <p class="ml-4 mb-1 mt-1">
-                        За сегодня: <b>{{ $tracks_today }}</b>
-                    </p>
-                    <p class="ml-4 mb-1 mt-1">
-                        За текущий месяц: <b>{{ $tracks_month }}</b>
-                    </p>
-                    <p class="ml-4 mb-1 mt-1">
-                        За всё время: <b>{{ $tracks_total }}</b>
-                    </p>
+                        <div
+                            class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                            Количество добавленных трек кодов на складах
+                        </div>
+                        <canvas id="pie-chart" width="800" height="450"></canvas>
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-1 ml-5 mr-5 gap-2">
@@ -105,20 +107,11 @@
                     <canvas id="pie-chart-days" width="800" height="450"></canvas>
                 </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mt-2 mr-5 gap-2">
-                <div class="overflow-hidden rounded-lg shadow-lg">
-                    <div
-                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов на складах
-                    </div>
-                    <canvas id="pie-chart" width="800" height="450"></canvas>
-                </div>
-            </div>
                 <!-- Required chart.js -->
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+            <script src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js
+'></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                 <script type="text/javascript">
 
@@ -128,10 +121,9 @@
                     var users2 =  {{ Js::from($data2) }};
                     var users3 =  {{ Js::from($data3) }};
                     var clients =  {{ Js::from($clients) }};
-                    var clients_today =  {{ Js::from($clients_today) }};
                     var clients_false =  {{ Js::from($clients_false) }};
                     var clients_true =  {{ Js::from($clients_true) }};
-                    var clients_auth =  {{ Js::from($clients_auth) }};
+                    var clients_today =  {{ Js::from($clients_today) }};
 
                     new Chart(document.getElementById("pie-chart"), {
                         type: 'bar',
@@ -167,33 +159,31 @@
                             },
                         }
                     });
-
                     new Chart(document.getElementById("client-chart"), {
                         type: 'doughnut',
                         data: {
-                            labels: ['Клиентов всего', 'Заходили сегодня', 'Зарегистрировались сегодня', 'Без доступа', 'С доступом'],
+                            labels: [ 'На сегодня: '+clients_today, 'Есть доступ: '+clients_true, 'Нет доступа: '+clients_false,  'Всего: '+clients],
                             datasets: [
                                 {
                                     label: "Количество",
-                                    backgroundColor: ["#ff6a00", "#0f00ff", "#2a8f07", "#980000",
-                                        "#dfff37"],
-                                    data: [clients, clients_auth, clients_today, clients_false, clients_true],
+                                    backgroundColor: [ "#3366cc", "#dc3912", "#ff9900", "#109618"],
+                                    data: [clients_today, clients_true, clients_false,  clients],
                                 }
                             ]
                         },
                         options: {
                             plugins: {
                                 legend: {
-                                    position: 'top',
-                                }
+                                    position: 'right',
+                                },
                             },
+
                             responsive: true,
                             interaction: {
                                 intersect: false,
                             },
                         }
                     });
-
 
                     var labelsDays =  {{ Js::from($labelsDays) }};
                     var usersDays =  {{ Js::from($dataDays) }};
