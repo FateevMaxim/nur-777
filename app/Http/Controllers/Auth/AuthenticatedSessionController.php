@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
             $user->save();
             return redirect()->route('dashboard');
         }else{
-            $config = Configuration::query()->select('address', 'whats_app')->first();
+            $config = Configuration::query()->select('address', 'whats_app', 'address_two')->first();
             return view('register-me')->with(compact( 'config'));
         }
     }
