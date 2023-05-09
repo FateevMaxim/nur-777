@@ -133,7 +133,7 @@
 
                     /* прикрепить событие submit к форме */
                     $("#city").change(function(event) {
-
+                        $('#city select, :focus,select').prop('focus',false).blur();
                         city = $("#city").val();
                         if (city === 'Выберите город'){
                             $("#sendTracks").prop("disabled",true).css("cursor","not-allowed");
