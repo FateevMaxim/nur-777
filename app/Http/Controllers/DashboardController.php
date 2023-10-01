@@ -20,6 +20,8 @@ class DashboardController extends Controller
         $qr = QrCodes::query()->select()->where('id', 1)->first();
         $qrChina = QrCodes::query()->select()->where('id', 2)->first();
         $qrKizilorga = QrCodes::query()->select()->where('id', 3)->first();
+        $qrShimkent = QrCodes::query()->select()->where('id', 4)->first();
+        $qrTaraz = QrCodes::query()->select()->where('id', 5)->first();
         $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
         $cities = City::query()->select('title')->get();
         $messages = Message::all();
@@ -47,6 +49,12 @@ class DashboardController extends Controller
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'kizilorgain') {
                 $count = TrackList::query()->whereDate('to_city', Carbon::today())->where('status', 'Получено на складе в Кызылорде')->count();
                 return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Кызылорде', 'qr' => $qrKizilorga]);
+        }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'shimkentin') {
+                $count = TrackList::query()->whereDate('to_city', Carbon::today())->where('status', 'Получено на складе в Шымкенте')->count();
+                return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Шымкенте', 'qr' => $qrShimkent]);
+        }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'tarazin') {
+                $count = TrackList::query()->whereDate('to_city', Carbon::today())->where('status', 'Получено на складе в Таразе')->count();
+                return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Таразе', 'qr' => $qrTaraz]);
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'almatyout'){
             $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
@@ -55,6 +63,12 @@ class DashboardController extends Controller
         } elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'kizilordaout') {
             $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->count();
             return view('almatyout', ['count' => $count, 'config' => $config, 'cities' => $cities, 'cityin' => 'Кызалорде', 'qr' => $qrKizilorga]);
+        } elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'shimkentout') {
+            $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->count();
+            return view('almatyout', ['count' => $count, 'config' => $config, 'cities' => $cities, 'cityin' => 'Шымкенте', 'qr' => $qrShimkent]);
+        } elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'tarazout') {
+            $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->count();
+            return view('almatyout', ['count' => $count, 'config' => $config, 'cities' => $cities, 'cityin' => 'Таразе', 'qr' => $qrTaraz]);
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'othercity'){
             $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
