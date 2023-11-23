@@ -60,6 +60,8 @@
                                     <h4>Дата выдачи клиенту</h4>
                                     <p><small id="to_client"></small></p>
                                     <p><small id="to_client_city"></small></p>
+3.                                    <h4>Дата получения клиентом</h4>
+                                    <p><small id="client_accept"></small></p>
                                 </div>
                             </div>
 
@@ -77,95 +79,95 @@
                             </div>
 
                         </div>
-                        <script>
+                    <script>
 
-                            /* прикрепить событие submit к форме */
-                            $("#getInfoForm").submit(function(event) {
-                                /* отключение стандартной отправки формы */
-                                event.preventDefault();
+                        /* прикрепить событие submit к форме */
+                        $("#getInfoForm").submit(function(event) {
+                            /* отключение стандартной отправки формы */
+                            event.preventDefault();
 
-                                /* собираем данные с элементов страницы: */
-                                var $form = $( this ),
-                                    track_code = $("#track_code").val();
-                                    url = $form.attr( 'action' );
+                            /* собираем данные с элементов страницы: */
+                            var $form = $( this ),
+                                track_code = $("#track_code").val();
+                            url = $form.attr( 'action' );
 
-                                /* отправляем данные методом POST */
-                                $.post( url, { track_code: track_code } )
-                                 .done(function( data ) {
-                                     $("#surname").text(data[1].surname);
-                                     $("#name").text(data[1].name);
-                                     $("#login").text(data[1].login);
-                                     $("#city").text(data[1].city);
-                                     $("#to_china").text(data[0].to_china);
-                                     $("#trackcode").text(track_code);
-                                     $("#to_almaty").text(data[0].to_almaty);
-                                     $("#to_city").text(data[0].to_city);
-                                     $("#to_client_city").text(data[0].to_client_city);
-                                     $("#city_name").text(data[0].city);
-                                     $("#city_name_two").text(data[0].city);
+                            /* отправляем данные методом POST */
+                            $.post( url, { track_code: track_code } )
+                                .done(function( data ) {
+                                    $("#surname").text(data[1].surname);
+                                    $("#name").text(data[1].name);
+                                    $("#login").text(data[1].login);
+                                    $("#city").text(data[1].city);
+                                    $("#to_china").text(data[0].to_china);
+                                    $("#trackcode").text(track_code);
+                                    $("#to_almaty").text(data[0].to_almaty);
+                                    $("#to_city").text(data[0].to_city);
+                                    $("#to_client_city").text(data[0].to_client_city);
+                                    $("#city_name").text(data[0].city);
+                                    $("#city_name_two").text(data[0].city);
 
-                                     var city_name = data[0].city;
+                                    var city_name = data[0].city;
 
-                                     if(city_name){
-                                         $("#to_othercity").text(data[0].to_client);
-                                         //$("#to_client").text(data[0].to_client);
-                                     }else{
+                                    if(city_name){
+                                        $("#to_othercity").text(data[0].to_client);
+                                        //$("#to_client").text(data[0].to_client);
+                                    }else{
 
-                                         $("#filial_one").css("display", "none");
-                                         $("#filial_two").css("display", "none");
-                                         $("#to_client").text(data[0].to_client);
-                                     }
+                                        $("#filial_one").css("display", "none");
+                                        $("#filial_two").css("display", "none");
+                                        $("#to_client").text(data[0].to_client);
+                                    }
 
-                                     $("#client_accept").text(data[0].client_accept);
+                                    $("#client_accept").text(data[0].client_accept);
 
-                                     if (data[1].block === 'нет'){
-                                         $("#unknown").css("display","block");
-                                     }else if(data[1].block != null){
-                                         $("#block").css("display","block");
-                                     }else{
-                                         $("#block").css("display","none");
-                                         $("#unknown").css("display","none");
-                                     }
+                                    if (data[1].block === 'нет'){
+                                        $("#unknown").css("display","block");
+                                    }else if(data[1].block != null){
+                                        $("#block").css("display","block");
+                                    }else{
+                                        $("#block").css("display","none");
+                                        $("#unknown").css("display","none");
+                                    }
 
-                                 });
-                            });
+                                });
+                        });
 
-                            /* прикрепить событие submit к форме */
-                            $("#almatyOut").submit(function(event) {
-                                /* отключение стандартной отправки формы */
-                                event.preventDefault();
+                        /* прикрепить событие submit к форме */
+                        $("#almatyOut").submit(function(event) {
+                            /* отключение стандартной отправки формы */
+                            event.preventDefault();
 
-                                /* собираем данные с элементов страницы: */
-                                var $form = $( this ),
-                                    track_codes = $("#trackcode").text();
-                                    to_city = $("#city_name").text();
-                                    url = $form.attr( 'action' );
+                            /* собираем данные с элементов страницы: */
+                            var $form = $( this ),
+                                track_codes = $("#trackcode").text();
+                            to_city = $("#city_name").text();
+                            url = $form.attr( 'action' );
 
-                                /* отправляем данные методом POST */
-                                $.post( url, { track_codes: track_codes, to_city: to_city } )
-                                 .done(function( data ) {
-                                     location.reload();
-                                 });
+                            /* отправляем данные методом POST */
+                            $.post( url, { track_codes: track_codes, to_city: to_city } )
+                                .done(function( data ) {
+                                    location.reload();
+                                });
 
-                            });
+                        });
 
-                            /* прикрепить событие submit к форме */
-                            $("#clear").click(function(event) {
-                                /* отключение стандартной отправки формы */
-                                event.preventDefault();
+                        /* прикрепить событие submit к форме */
+                        $("#clear").click(function(event) {
+                            /* отключение стандартной отправки формы */
+                            event.preventDefault();
 
-                                    track_codes = $("#trackcode").text();
-                                url = 'almatyout-product';
+                            track_codes = $("#trackcode").text();
+                            url = 'almatyout-product';
 
-                                /* отправляем данные методом POST */
-                                $.post( url, { track_codes: track_codes, send: true } )
-                                    .done(function( data ) {
-                                        location.reload();
-                                    });
+                            /* отправляем данные методом POST */
+                            $.post( url, { track_codes: track_codes, send: true } )
+                                .done(function( data ) {
+                                    location.reload();
+                                });
 
-                            });
+                        });
 
-                        </script>
+                    </script>
                 </div>
 
                     @include('components.scanner-settings')

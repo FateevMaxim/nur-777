@@ -71,7 +71,7 @@ class DashboardController extends Controller
             $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->count();
             return view('almatyout', ['count' => $count, 'config' => $config, 'cities' => $cities, 'cityin' => 'Кызалорде', 'qr' => $qrKizilorga]);
         } elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'shimkentout') {
-            $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->count();
+            $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->where('city', 'Шымкент')->count();
             return view('almatyout', ['count' => $count, 'config' => $config, 'cities' => $cities, 'cityin' => 'Шымкенте', 'qr' => $qrShimkent]);
         } elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'tarazout') {
             $count = TrackList::query()->whereDate('to_client_city', Carbon::today())->count();
